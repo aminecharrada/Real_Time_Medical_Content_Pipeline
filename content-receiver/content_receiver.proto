@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package contentreceiver;  // Cette ligne est cruciale
+
+service ContentReceiver {
+  rpc ProcessContent (ContentRequest) returns (ContentResponse);
+}
+
+message ContentRequest {
+  string text = 1;
+  string metadata = 2;
+}
+
+message ContentResponse {
+  string status = 1;
+}
