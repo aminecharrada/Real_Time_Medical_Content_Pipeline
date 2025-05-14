@@ -183,11 +183,17 @@ graph TD
        
         
           ![image](https://github.com/user-attachments/assets/e4184476-7905-49f6-af52-c3dd1ad85ed0)
+        ------------------------------------
           ![image](https://github.com/user-attachments/assets/4a18d64a-d96e-4541-a824-68c001530238)
+        ------------------------------------
           ![image](https://github.com/user-attachments/assets/1110362c-ce52-47c6-a938-8e1606300e89)
+        ------------------------------------
           ![image](https://github.com/user-attachments/assets/9a40bc7c-56b3-48e6-bafe-0b6409be5d43)
+          ------------------------------------
           ![image](https://github.com/user-attachments/assets/7996240f-4014-4c17-9d4d-0dc159a2bd54)
+        ------------------------------------
           ![image](https://github.com/user-attachments/assets/e70dad62-7725-4323-8e8f-fa93fd8038f4)
+        ------------------------------------
           ![image](https://github.com/user-attachments/assets/15048ce4-db1d-4a40-8c62-da98e7a5a9f8)
 
           
@@ -198,6 +204,7 @@ graph TD
 
     *   **Observations attendues (LM Studio Logs) :**
         ![image](https://github.com/user-attachments/assets/0bf46b03-1d55-4357-ab61-97e5aa77881b)
+        ------------------------------------
         ![image](https://github.com/user-attachments/assets/a7307f7f-563e-49df-84d0-a7091ef6722c)
 
 
@@ -240,25 +247,14 @@ graph TD
 1.  **Étape 1: Soumission du Contenu via gRPC**
     *   **Action :** Utilisez un client gRPC pour appeler la méthode `ProcessContent` du service `ContentReceiver` sur `localhost:50051`.
         ![image](https://github.com/user-attachments/assets/f6d20639-5242-4d70-9c7a-78c933ea6842)
+        ------------------------------------
         ![image](https://github.com/user-attachments/assets/8625df55-4a94-4f3c-ac11-bf91605b6e8b)
 
 
 
-2.  **Étape 2: Suite du Traitement**
-    *   **Action :** Les étapes suivantes (vérification sur Kafka, traitement par Classifier, stockage, consultation) sont identiques aux étapes 2 à 8 du Flux 1.
-    *   **Observations attendues :** Similaires au Flux 1, mais avec les données du message gRPC.
-    *   **Captures d'écran suggérées :** Vous pouvez réutiliser les types de captures d'écran du Flux 1, mais avec les données issues de la soumission gRPC.
 
----
 
-### Notes sur les Captures d'écran
 
-*   Remplacez les commentaires `<!-- Insérez ici une capture d'écran ... -->` par de vraies images.
-*   Utilisez des noms de fichiers descriptifs pour vos captures d'écran.
-*   Assurez-vous que les captures sont claires et mettent en évidence l'information pertinente.
-*   Vous pouvez les intégrer directement dans le README si votre plateforme le supporte (ex: GitHub) en utilisant la syntaxe Markdown : `![Texte alternatif](chemin/vers/votre_image.png)`
-
-# ... (Section Améliorations Possibles et reste du README) ...
 ## 🛠️ Technologies Utilisées
 
 | Composant          | Technologie                           |
