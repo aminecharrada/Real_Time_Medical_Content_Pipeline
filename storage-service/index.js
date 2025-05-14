@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { Kafka } = require('kafkajs');
-
+// const { Kafka } = require('kafkajs'); // Kafka client is already in kafka-config
+const { kafka, TOPICS } = require('../config/kafka-config'); // Use shared config
 const app = express();
 app.use(express.json());
 
@@ -15,36 +15,63 @@ const contentSchema = new mongoose.Schema({
   text: String,
   metadata: Object,
   category: String,
-  timestamp: String
+  timestamp: String,
+  lm_enhancement: String, 
+  storedAt: Date 
 });
 const Content = mongoose.model('Content', contentSchema);
 
 // Kafka Consumer
-const kafka = new Kafka({
-  clientId: 'storage-service',
-  brokers: ['localhost:9092']
+const consumer = kafka.consumer({
+  groupId: 'storage-group',
+  heartbeatInterval: 3000,
+  sessionTimeout: 30000
 });
-const consumer = kafka.consumer({ groupId: 'storage-group' });
 
 async function runConsumer() {
   await consumer.connect();
-  await consumer.subscribe({ topic: 'classified-content' });
-  
+  await consumer.subscribe({ topic: TOPICS.CLASSIFIED, fromBeginning: false }); // fromBeginning: false is good for new messages
+
   await consumer.run({
+    autoCommit: true,
     eachMessage: async ({ message }) => {
-      const content = JSON.parse(message.value.toString());
-      await Content.create(content);
-      console.log('Stored content:', content.category);
+      try {
+        const contentData = JSON.parse(message.value.toString()); // Renamed variable
+        // Ensure 'storedAt' is set if it's part of the schema and not in the message
+        await Content.create({
+          ...contentData,
+          storedAt: new Date() // This will override if contentData has storedAt, or add it
+        });
+        console.log('Stored content with ID:', contentData.id || 'N/A (using _id from mongo)');
+      } catch (error) {
+        console.error('Storage error:', error);
+        // Add dead-letter queue logic here if needed
+        // For example, publish to TOPICS.ERRORS
+      }
     }
   });
 }
 
-runConsumer().catch(console.error);
+runConsumer().catch(err => {
+    console.error("Error running storage consumer:", err);
+    process.exit(1);
+});
 
 // REST API
 app.get('/api/contents', async (req, res) => {
-  const contents = await Content.find();
-  res.json(contents);
+  try {
+    const contents = await Content.find();
+    res.json(contents.map(doc => ({
+      id: doc._id.toString(),
+      text: doc.text || "", 
+      category: doc.category || "uncategorized", 
+      timestamp: doc.timestamp || new Date().toISOString(), 
+      metadata: doc.metadata || {},
+      lm_enhancement: doc.lm_enhancement || "Not available"
+    })));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.listen(8001, () => {
