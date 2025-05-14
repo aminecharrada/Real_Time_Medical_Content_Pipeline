@@ -2,7 +2,7 @@
 # Medical Content Processing Pipeline
 
 ## Architecture Overview
-
+```mermaid
 graph TD
     %% Clients externes
     ClientREST[Client Ingestion REST]
@@ -66,7 +66,7 @@ graph TD
     classDef client fill:#EAEDED,stroke:#7F8C8D,stroke-width:2px,color:#000;
     class ClientREST,ClientGRPC,ClientGraphQL client;
 
-
+```
 
 
 
