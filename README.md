@@ -1,4 +1,4 @@
-```markdown
+
 # Medical Content Processing Pipeline
 
 ## Architecture Overview
@@ -22,6 +22,7 @@ graph TD
     style F fill:#bbf,stroke:#333
     style H fill:#f96,stroke:#333
 ```
+
 
 ## Core Components
 
