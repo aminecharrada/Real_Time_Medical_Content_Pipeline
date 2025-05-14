@@ -16,13 +16,13 @@ graph TD
 
     %% Styles
     style A fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000  
-    style B fill:#9FC5E8,stroke:#2C3E50,stroke-width:1.5px          
-    style C fill:#76A5AF,stroke:#2C3E50,stroke-width:1.5px          
-    style D fill:#A2C4C9,stroke:#2C3E50,stroke-width:1.5px          
-    style E fill:#B4A7D6,stroke:#2C3E50,stroke-width:1.5px          
-    style F fill:#F6B26B,stroke:#2C3E50,stroke-width:1.5px         
-    style G fill:#E06666,stroke:#2C3E50,stroke-width:1.5px        
-    style H fill:#93C47D,stroke:#2C3E50,stroke-width:1.5px          
+    style B fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000           
+    style C fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000         
+    style D fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000         
+    style E fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000        
+    style F fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000       
+    style G fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000       
+    style H fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000          
 ```
 
 
