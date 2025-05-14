@@ -1,4 +1,4 @@
-Très bien ! Voici une version **recréée et structurée proprement** de votre `README.md`, incluant un schéma Mermaid, des sections claires et professionnelles, tout en conservant l’esprit de votre message original.
+![image](https://github.com/user-attachments/assets/aea2dd97-7844-45fb-8365-bdd8cd248680)Très bien ! Voici une version **recréée et structurée proprement** de votre `README.md`, incluant un schéma Mermaid, des sections claires et professionnelles, tout en conservant l’esprit de votre message original.
 
 ---
 
@@ -196,70 +196,42 @@ graph TD
 
 
 
-    *   **Observations attendues (LM Studio Logs - si visible) :**
-        *   Log d'une requête entrante avec le texte à analyser.
-    *   **Capture d'écran suggérée (classifier_service_logs.png) :**
-        *   Terminal montrant les logs pertinents du `Classifier Service`.
-        ```
-        <!-- Insérez ici une capture d'écran des logs du Classifier Service -->
-        ```
+    *   **Observations attendues (LM Studio Logs) :**
+        ![image](https://github.com/user-attachments/assets/0bf46b03-1d55-4357-ab61-97e5aa77881b)
+        ![image](https://github.com/user-attachments/assets/a7307f7f-563e-49df-84d0-a7091ef6722c)
+
 
 5.  **Étape 4: Vérification du Message sur le Topic `classified-content`**
 
     ![image](https://github.com/user-attachments/assets/a6725fd0-7269-4d9c-afa6-a20416111a5d)
-
+    
 
 7.  **Étape 5: Stockage par le Storage Service**
     *   **Action :** Observez les logs du `Storage Service`.
-    *   **Observations attendues (Storage Service Logs) :**
-        *   Log indiquant la réception du message depuis `classified-content`.
-        *   Log indiquant que le contenu a été stocké dans MongoDB.
-    *   **Capture d'écran suggérée (storage_service_logs.png) :**
-        *   Terminal montrant les logs pertinents du `Storage Service`.
-        ```
-        <!-- Insérez ici une capture d'écran des logs du Storage Service -->
-        ```
+   
+          
+        ![image](https://github.com/user-attachments/assets/04863f18-41c1-4db9-a0ce-8f27799582ea)
+
 
 8.  **Étape 6: Vérification des Données dans MongoDB**
-    *   **Action :** Utilisez un client MongoDB pour interroger la collection `contents` dans la base `medical`.
-    *   **Observations attendues :**
-        *   Un nouveau document existe avec les données correspondantes (texte, métadonnées, catégorie, enrichissement LM).
-    *   **Capture d'écran suggérée (mongodb_data.png) :**
-        *   MongoDB Compass (ou équivalent) montrant le document inséré.
-        ```
-        <!-- Insérez ici une capture d'écran de MongoDB Compass montrant le nouveau document -->
-        ```
+    *   **Action :**  MongoDB Capture.
+
+        ![image](https://github.com/user-attachments/assets/9ee81511-7b19-4432-8c84-80948e48c0e4)
+
 
 9.  **Étape 7: Consultation via l'API REST du Storage Service**
     *   **Action :** Envoyez une requête `GET` à `http://localhost:8001/api/contents`.
-    *   **Observations attendues :**
-        *   Une réponse JSON contenant un tableau d'objets, incluant le nouveau contenu stocké.
-    *   **Capture d'écran suggérée (storage_service_get_api.png) :**
-        *   Postman (ou navigateur) montrant la réponse de l'API.
-        ```
-        <!-- Insérez ici une capture d'écran de la réponse GET /api/contents -->
-        ```
+      
+    ![image](https://github.com/user-attachments/assets/84c5eab3-da9d-4cfc-ba39-2bb2ec9b2ff7)
+
+    
 
 10.  **Étape 8: Consultation via GraphQL (API Gateway ou Query Service)**
-    *   **Action :** Utilisez Apollo Sandbox/Playground (ou Postman) pour envoyer une requête GraphQL à `http://localhost:8000/graphql` (API Gateway) ou `http://localhost:4000/graphql` (Query Service).
-        ```graphql
-        query {
-          contents {
-            id
-            text
-            category
-            lm_enhancement
-            metadata
-          }
-        }
-        ```
-    *   **Observations attendues :**
-        *   Une réponse JSON GraphQL contenant les données du contenu soumis.
-    *   **Capture d'écran suggérée (graphql_query_result.png) :**
-        *   Apollo Sandbox/Playground montrant la requête et la réponse GraphQL.
-        ```
-        <!-- Insérez ici une capture d'écran d'Apollo Sandbox/Playground avec la requête et la réponse -->
-        ```
+
+     ![image](https://github.com/user-attachments/assets/369ee2d1-986a-400c-b953-bc1a25cc645c)
+
+     ![image](https://github.com/user-attachments/assets/7e59e41d-a77b-4a0d-a550-7651591a8f41)
+     
 
 ---
 
@@ -267,21 +239,10 @@ graph TD
 
 1.  **Étape 1: Soumission du Contenu via gRPC**
     *   **Action :** Utilisez un client gRPC pour appeler la méthode `ProcessContent` du service `ContentReceiver` sur `localhost:50051`.
-        *   **Requête :**
-            ```json // Représentation JSON de la requête gRPC
-            {
-              "text": "Éruption cutanée observée sur l'avant-bras droit, démangeaisons intenses. Possible réaction allergique.",
-              "metadata": { "patient_id": "P002", "source_type": "Observation infirmière" }
-            }
-            ```
-    *   **Observations attendues :**
-        *   Le client gRPC reçoit une réponse de succès (ex: `{ "status": "SUCCESS" }`).
-        *   Logs du `Content Receiver Service` indiquant la réception et la production du message vers Kafka.
-    *   **Capture d'écran suggérée (grpc_client_request.png) :**
-        *   Votre client gRPC (BloomRPC, Postman) montrant l'appel et la réponse.
-        ```
-        <!-- Insérez ici une capture d'écran du client gRPC montrant l'appel et la réponse -->
-        ```
+        ![image](https://github.com/user-attachments/assets/f6d20639-5242-4d70-9c7a-78c933ea6842)
+        ![image](https://github.com/user-attachments/assets/8625df55-4a94-4f3c-ac11-bf91605b6e8b)
+
+
 
 2.  **Étape 2: Suite du Traitement**
     *   **Action :** Les étapes suivantes (vérification sur Kafka, traitement par Classifier, stockage, consultation) sont identiques aux étapes 2 à 8 du Flux 1.
