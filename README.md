@@ -15,14 +15,16 @@ graph TD
     D -->|API| H[LM Studio]
 
     %% Styles
-    style A fill:#f9f,stroke:#333
-    style B fill:#bbf,stroke:#333
-    style C fill:#bbf,stroke:#333
-    style D fill:#bbf,stroke:#333
-    style E fill:#bbf,stroke:#333
-    style F fill:#bbf,stroke:#333
-    style H fill:#f96,stroke:#333
+    style A fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000  %% Client (yellow)
+    style B fill:#9FC5E8,stroke:#2C3E50,stroke-width:1.5px          %% API Gateway (blue)
+    style C fill:#76A5AF,stroke:#2C3E50,stroke-width:1.5px          %% Content Receiver (teal)
+    style D fill:#A2C4C9,stroke:#2C3E50,stroke-width:1.5px          %% Classifier (light teal)
+    style E fill:#B4A7D6,stroke:#2C3E50,stroke-width:1.5px          %% Query Service (purple)
+    style F fill:#F6B26B,stroke:#2C3E50,stroke-width:1.5px          %% Storage Service (orange)
+    style G fill:#E06666,stroke:#2C3E50,stroke-width:1.5px          %% MongoDB (red)
+    style H fill:#93C47D,stroke:#2C3E50,stroke-width:1.5px          %% LM Studio (green)
 ```
+
 
 
 
