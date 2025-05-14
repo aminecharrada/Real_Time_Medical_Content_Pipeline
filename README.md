@@ -147,21 +147,9 @@ graph TD
    * Les resolvers appellent l’API REST du `Storage Service`.
 
 ---
-# ... (Toutes les sections précédentes du README) ...
 
 ## Tests et Démonstration du Fonctionnement
 
-Cette section décrit comment tester les différentes parties du pipeline et illustre le fonctionnement attendu. Assurez-vous que tous les services (Kafka, MongoDB, LM Studio, et vos microservices) sont démarrés comme décrit dans la section [Lancement des Services](#lancement-des-services).
-
-### Outils Recommandés pour les Tests
-
-*   **Postman / Insomnia / `curl` :** Pour tester les endpoints REST et GraphQL.
-*   **Client gRPC (BloomRPC, grpcurl, Postman gRPC) :** Pour tester le `Content Receiver Service`.
-*   **Outil de gestion Kafka (Kafka Tool, Offset Explorer, kcat/kafkacat) :** Pour inspecter les messages dans les topics Kafka.
-*   **Client MongoDB (MongoDB Compass, `mongosh`) :** Pour vérifier les données dans la base de données.
-*   **Apollo Sandbox / GraphQL Playground :** Intégré avec Apollo Server (accessible via `http://localhost:8000/graphql` et `http://localhost:4000/graphql` si activé) pour tester les requêtes GraphQL.
-
----
 
 ### Flux 1: Ingestion via API Gateway (REST) et Traitement Complet
 
@@ -179,7 +167,8 @@ Cette section décrit comment tester les différentes parties du pipeline et ill
     *   **Capture d'écran suggérée (api_gateway_post_request.png) :**
         *   Postman (ou équivalent) montrant la requête envoyée et la réponse reçue.
         ```
-        <!-- Insérez ici une capture d'écran de Postman montrant la requête POST et la réponse -->
+        ![image](https://github.com/user-attachments/assets/9a3c7cc1-0a1b-49d6-8e62-945c4a1660a9)
+
         ```
 
 2.  **Étape 2: Vérification du Message sur le Topic `incoming-medical-content`**
