@@ -175,7 +175,13 @@ graph TD
 
 
 4.  **Étape 3: Traitement par le Classifier Service et LM Studio**
-    
+       
+    *   **Observations (Classifier Service Logs) :**
+        
+        
+        
+       
+        
           ![image](https://github.com/user-attachments/assets/e4184476-7905-49f6-af52-c3dd1ad85ed0)
           ![image](https://github.com/user-attachments/assets/4a18d64a-d96e-4541-a824-68c001530238)
           ![image](https://github.com/user-attachments/assets/1110362c-ce52-47c6-a938-8e1606300e89)
