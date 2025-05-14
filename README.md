@@ -3,27 +3,69 @@
 
 ## Architecture Overview
 
-```mermaid
 graph TD
-    A[Client] -->|REST/gRPC| B[API Gateway]
-    A -->|GraphQL| E[Query Service]
-    B -->|Kafka| C[Content Receiver]
-    C -->|Kafka| D[Classifier Service]
-    D -->|Kafka| F[Storage Service]
-    F -->|MongoDB| G[(MongoDB)]
-    E -->|REST| F
-    D -->|API| H[LM Studio]
+    %% Clients externes
+    ClientREST[Client Ingestion REST]
+    ClientGRPC[Client Ingestion gRPC]
+    ClientGraphQL[Client Requête GraphQL]
 
-    %% Styles
-    style A fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000  
-    style B fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000           
-    style C fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000         
-    style D fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000         
-    style E fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000        
-    style F fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000       
-    style G fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000       
-    style H fill:#FFD966,stroke:#444,stroke-width:1.5px,color:#000          
-```
+    %% Points d'entrée & requêtes
+    APIGW["API Gateway<br>(localhost:8000)<br>Express, Apollo Server"]
+    GRPCReceiver["Content Receiver<br>(localhost:50051)<br>gRPC Server"]
+    GraphQLQuery["Query Service<br>(localhost:4000)<br>Apollo Server"]
+
+    %% Kafka Topics
+    TopicIncoming["Topic:<br>incoming-medical-content"]
+    TopicClassified["Topic:<br>classified-content"]
+
+    %% Traitement
+    Classifier["Classifier Service<br>Kafka Consumer/Producer"]
+    LMStudio[(LM Studio Externe)]
+
+    %% Stockage
+    Storage["Storage Service<br>(localhost:8001)<br>Express, Mongoose, Kafka Consumer"]
+    Mongo[(MongoDB)]
+
+    %% Ingestion Flow
+    ClientREST -->|"POST /api/content"| APIGW
+    APIGW -->|"Produit msg"| TopicIncoming
+
+    ClientGRPC -->|"ProcessContent"| GRPCReceiver
+    GRPCReceiver -->|"Produit msg"| TopicIncoming
+
+    %% Traitement Flow
+    Classifier -->|"Consomme"| TopicIncoming
+    Classifier -->|"Appel HTTP POST"| LMStudio
+    LMStudio -->|"Texte enrichi"| Classifier
+    Classifier -->|"Produit msg classifié"| TopicClassified
+
+    %% Stockage Flow
+    Storage -->|"Consomme"| TopicClassified
+    Storage -->|"Stocke/Lit"| Mongo
+
+    %% Requête Flow
+    ClientGraphQL -->|"Requête GraphQL /graphql"| APIGW
+    APIGW -->|"Resolver appelle GET /api/contents"| Storage
+
+    ClientGraphQL -->|"Requête GraphQL /graphql"| GraphQLQuery
+    GraphQLQuery -->|"Resolver appelle GET /api/contents"| Storage
+
+    %% Classes
+    classDef service fill:#D6EAF8,stroke:#2980B9,stroke-width:2px,color:#000;
+    class APIGW,GRPCReceiver,GraphQLQuery,Classifier,Storage service;
+
+    classDef topic fill:#FDEBD0,stroke:#E67E22,stroke-width:2px,color:#000;
+    class TopicIncoming,TopicClassified topic;
+
+    classDef db fill:#D5F5E3,stroke:#27AE60,stroke-width:2px,color:#000;
+    class Mongo db;
+
+    classDef external fill:#FCF3CF,stroke:#F1C40F,stroke-width:2px,color:#000;
+    class LMStudio external;
+
+    classDef client fill:#EAEDED,stroke:#7F8C8D,stroke-width:2px,color:#000;
+    class ClientREST,ClientGRPC,ClientGraphQL client;
+
 
 
 
