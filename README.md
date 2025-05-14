@@ -13,7 +13,8 @@ graph TD
     F -->|MongoDB| G[(MongoDB)]
     E -->|REST| F
     D -->|API| H[LM Studio]
-    
+
+    %% Styles
     style A fill:#f9f,stroke:#333
     style B fill:#bbf,stroke:#333
     style C fill:#bbf,stroke:#333
@@ -22,6 +23,7 @@ graph TD
     style F fill:#bbf,stroke:#333
     style H fill:#f96,stroke:#333
 ```
+
 
 
 ## Core Components
