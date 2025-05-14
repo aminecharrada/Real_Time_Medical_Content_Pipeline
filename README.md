@@ -1,7 +1,3 @@
-![image](https://github.com/user-attachments/assets/aea2dd97-7844-45fb-8365-bdd8cd248680)Très bien ! Voici une version **recréée et structurée proprement** de votre `README.md`, incluant un schéma Mermaid, des sections claires et professionnelles, tout en conservant l’esprit de votre message original.
-
----
-
 # 🩺 Pipeline de Traitement de Contenu Médical
 
 Ce projet met en œuvre un pipeline distribué pour ingérer, enrichir, stocker et interroger du contenu médical. Il s'appuie sur une architecture microservices, Kafka pour la communication asynchrone, MongoDB pour le stockage et LM Studio pour l’enrichissement par IA.
@@ -282,26 +278,6 @@ graph TD
 
 ---
 
-## 📦 Installation
-
-Clonez le dépôt :
-
-```bash
-git clone https://github.com/votre-utilisateur/medical-pipeline.git
-cd medical-pipeline
-```
-
-Installez les dépendances :
-
-```bash
-cd api-gateway && npm install
-cd ../classifier-service && npm install
-cd ../content-receiver && npm install
-cd ../storage-service && npm install
-cd ../query-service && npm install
-```
-
----
 
 ## ▶️ Lancement des Services
 
@@ -314,7 +290,7 @@ cd ../query-service && npm install
 
 ```bash
 # Dans chaque dossier de service
-npm run start
+npm start
 ```
 
 ---
@@ -328,21 +304,7 @@ npm run start
 | Storage Service | REST         | 8001  | `/api/contents`            |
 | Query Service   | GraphQL      | 4000  | `/graphql`                 |
 
----
 
-## 📁 Structure du Projet (exemple)
-
-```
-medical-pipeline/
-├── api-gateway/
-├── classifier-service/
-├── content-receiver/
-├── query-service/
-├── storage-service/
-├── config/
-│   └── kafka-config.js
-└── README.md
-```
 
 ---
 
@@ -356,4 +318,4 @@ medical-pipeline/
 
 ---
 
-Souhaitez-vous que je génère ce README sous forme de fichier `.md` ?
+
