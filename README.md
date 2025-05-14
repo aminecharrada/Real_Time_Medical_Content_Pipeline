@@ -35,11 +35,17 @@ L'objectif est de construire un système **scalable** et **modulaire** pour trai
 ## ✨ Fonctionnalités Clés
 
 ✅ Ingestion via API REST ou gRPC
+
 ✅ Traitement asynchrone et découplé via Kafka
+
 ✅ Classification automatique par mots-clés
+
 ✅ Enrichissement intelligent via LM Studio
+
 ✅ Stockage durable dans MongoDB
+
 ✅ Accès flexible via GraphQL ou REST
+
 
 ---
 
