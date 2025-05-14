@@ -157,38 +157,39 @@ graph TD
     *   **Action :** Envoyez une requête `POST` à `http://localhost:8000/api/content` avec un corps JSON.
         ```json
         {
-          "text": "Le patient présente des symptômes de grippe : fièvre élevée et toux sèche. Antécédents de cardiopathie.",
+          "text": "Le patient presente des symptomes de grippe fievre elevee et toux seche Antecedents de cardiopathie",
           "metadata": { "patient_id": "P001", "source": "Consultation Dr. Bernard" }
         }
         ```
-    *   **Observations attendues :**
-        *   L'API Gateway répond avec un statut `200 OK` et `{ "message": "Content received", "status": "SUCCESS" }`.
-        *   Logs de l'API Gateway indiquant la réception et la production du message vers Kafka.
-    *   **Capture d'écran suggérée (api_gateway_post_request.png) :**
-        *   Postman (ou équivalent) montrant la requête envoyée et la réponse reçue.
-        ```
-        ![image](https://github.com/user-attachments/assets/9a3c7cc1-0a1b-49d6-8e62-945c4a1660a9)
+    
+    *   Logs de l'API Gateway indiquant la réception et la production du message vers Kafka.
+    
+        ![image](https://github.com/user-attachments/assets/518da8a8-efce-40b4-85ae-2efdd6ebbb0a)
+
 
         ```
 
 2.  **Étape 2: Vérification du Message sur le Topic `incoming-medical-content`**
-    *   **Action :** Utilisez un outil Kafka pour inspecter le topic `incoming-medical-content`.
-    *   **Observations attendues :**
-        *   Un nouveau message apparaît sur le topic, contenant le `text` et les `metadata` soumis, ainsi que les `headers` (`source: api-gateway`, `timestamp`).
-    *   **Capture d'écran suggérée (kafka_topic_incoming.png) :**
-        *   Votre outil Kafka montrant le message sur le topic `incoming-medical-content`.
-        ```
-        <!-- Insérez ici une capture d'écran de l'outil Kafka montrant le message sur incoming-medical-content -->
-        ```
+   
+    ![image](https://github.com/user-attachments/assets/59855903-62d1-40e0-a181-ee3f35dc64d4)
 
-3.  **Étape 3: Traitement par le Classifier Service et LM Studio**
-    *   **Action :** Observez les logs du `Classifier Service` et, si possible, de LM Studio.
-    *   **Observations attendues (Classifier Service Logs) :**
-        *   Log indiquant la réception du message depuis `incoming-medical-content`.
-        *   Log indiquant la catégorie déterminée (ex: `general` ou `cardiology` si un mot-clé est trouvé).
-        *   Log indiquant l'appel à LM Studio.
-        *   Log indiquant la réponse reçue de LM Studio (l'enrichissement).
-        *   Log indiquant la production du message enrichi vers `classified-content`.
+
+4.  **Étape 3: Traitement par le Classifier Service et LM Studio**
+    
+          ![image](https://github.com/user-attachments/assets/e4184476-7905-49f6-af52-c3dd1ad85ed0)
+          ![image](https://github.com/user-attachments/assets/4a18d64a-d96e-4541-a824-68c001530238)
+          ![image](https://github.com/user-attachments/assets/1110362c-ce52-47c6-a938-8e1606300e89)
+          ![image](https://github.com/user-attachments/assets/9a40bc7c-56b3-48e6-bafe-0b6409be5d43)
+          ![image](https://github.com/user-attachments/assets/7996240f-4014-4c17-9d4d-0dc159a2bd54)
+          ![image](https://github.com/user-attachments/assets/e70dad62-7725-4323-8e8f-fa93fd8038f4)
+          ![image](https://github.com/user-attachments/assets/15048ce4-db1d-4a40-8c62-da98e7a5a9f8)
+
+          
+
+
+
+
+
     *   **Observations attendues (LM Studio Logs - si visible) :**
         *   Log d'une requête entrante avec le texte à analyser.
     *   **Capture d'écran suggérée (classifier_service_logs.png) :**
@@ -197,17 +198,12 @@ graph TD
         <!-- Insérez ici une capture d'écran des logs du Classifier Service -->
         ```
 
-4.  **Étape 4: Vérification du Message sur le Topic `classified-content`**
-    *   **Action :** Utilisez un outil Kafka pour inspecter le topic `classified-content`.
-    *   **Observations attendues :**
-        *   Un nouveau message apparaît sur le topic, contenant les données originales, `category`, `lm_enhancement`, et `classifiedAt`.
-    *   **Capture d'écran suggérée (kafka_topic_classified.png) :**
-        *   Votre outil Kafka montrant le message enrichi sur le topic `classified-content`.
-        ```
-        <!-- Insérez ici une capture d'écran de l'outil Kafka montrant le message sur classified-content -->
-        ```
+5.  **Étape 4: Vérification du Message sur le Topic `classified-content`**
 
-5.  **Étape 5: Stockage par le Storage Service**
+    ![image](https://github.com/user-attachments/assets/a6725fd0-7269-4d9c-afa6-a20416111a5d)
+
+
+7.  **Étape 5: Stockage par le Storage Service**
     *   **Action :** Observez les logs du `Storage Service`.
     *   **Observations attendues (Storage Service Logs) :**
         *   Log indiquant la réception du message depuis `classified-content`.
@@ -218,7 +214,7 @@ graph TD
         <!-- Insérez ici une capture d'écran des logs du Storage Service -->
         ```
 
-6.  **Étape 6: Vérification des Données dans MongoDB**
+8.  **Étape 6: Vérification des Données dans MongoDB**
     *   **Action :** Utilisez un client MongoDB pour interroger la collection `contents` dans la base `medical`.
     *   **Observations attendues :**
         *   Un nouveau document existe avec les données correspondantes (texte, métadonnées, catégorie, enrichissement LM).
@@ -228,7 +224,7 @@ graph TD
         <!-- Insérez ici une capture d'écran de MongoDB Compass montrant le nouveau document -->
         ```
 
-7.  **Étape 7: Consultation via l'API REST du Storage Service**
+9.  **Étape 7: Consultation via l'API REST du Storage Service**
     *   **Action :** Envoyez une requête `GET` à `http://localhost:8001/api/contents`.
     *   **Observations attendues :**
         *   Une réponse JSON contenant un tableau d'objets, incluant le nouveau contenu stocké.
@@ -238,7 +234,7 @@ graph TD
         <!-- Insérez ici une capture d'écran de la réponse GET /api/contents -->
         ```
 
-8.  **Étape 8: Consultation via GraphQL (API Gateway ou Query Service)**
+10.  **Étape 8: Consultation via GraphQL (API Gateway ou Query Service)**
     *   **Action :** Utilisez Apollo Sandbox/Playground (ou Postman) pour envoyer une requête GraphQL à `http://localhost:8000/graphql` (API Gateway) ou `http://localhost:4000/graphql` (Query Service).
         ```graphql
         query {
