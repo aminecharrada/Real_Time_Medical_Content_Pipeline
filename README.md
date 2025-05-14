@@ -51,7 +51,7 @@ L'objectif est de construire un système **scalable** et **modulaire** pour trai
 
 ## 🧱 Architecture Globale
 
-### 📊 Diagramme Mermaid
+
 
 ```mermaid
 graph TD
