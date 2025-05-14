@@ -49,56 +49,68 @@ L'objectif est de construire un système **scalable** et **modulaire** pour trai
 
 ```mermaid
 graph TD
-    subgraph Clients
-        ClientREST[Client REST]
-        ClientGRPC[Client gRPC]
-        ClientGraphQL[Client GraphQL]
-    end
+    %% Clients externes
+    ClientREST[Client Ingestion REST]
+    ClientGRPC[Client Ingestion gRPC]
+    ClientGraphQL[Client Requête GraphQL]
 
-    subgraph Entrée
-        APIGW["API Gateway (REST/GraphQL)"]
-        GRPCReceiver["Content Receiver (gRPC)"]
-    end
+    %% Points d'entrée & requêtes
+    APIGW["API Gateway<br>(localhost:8000)<br>Express, Apollo Server"]
+    GRPCReceiver["Content Receiver<br>(localhost:50051)<br>gRPC Server"]
+    GraphQLQuery["Query Service<br>(localhost:4000)<br>Apollo Server"]
 
-    subgraph Kafka
-        TopicIncoming["Topic: incoming-medical-content"]
-        TopicClassified["Topic: classified-content"]
-    end
+    %% Kafka Topics
+    TopicIncoming["Topic:<br>incoming-medical-content"]
+    TopicClassified["Topic:<br>classified-content"]
 
-    subgraph Traitement
-        Classifier["Classifier Service"]
-        LMStudio["LM Studio (externe)"]
-    end
+    %% Traitement
+    Classifier["Classifier Service<br>Kafka Consumer/Producer"]
+    LMStudio[(LM Studio Externe)]
 
-    subgraph Stockage
-        Storage["Storage Service"]
-        Mongo[(MongoDB)]
-    end
+    %% Stockage
+    Storage["Storage Service<br>(localhost:8001)<br>Express, Mongoose, Kafka Consumer"]
+    Mongo[(MongoDB)]
 
-    subgraph Requête
-        GraphQLQuery["Query Service (Apollo Server)"]
-    end
+    %% Ingestion Flow
+    ClientREST -->|"POST /api/content"| APIGW
+    APIGW -->|"Produit msg"| TopicIncoming
 
-    %% Relations
-    ClientREST -->|POST /api/content| APIGW --> TopicIncoming
-    ClientGRPC --> GRPCReceiver --> TopicIncoming
-    Classifier -->|Consomme| TopicIncoming
-    Classifier -->|Appel POST| LMStudio --> Classifier -->|Publie| TopicClassified
-    Storage -->|Consomme| TopicClassified --> Mongo
-    ClientGraphQL -->|/graphql| APIGW
-    ClientGraphQL --> GraphQLQuery --> Storage
+    ClientGRPC -->|"ProcessContent"| GRPCReceiver
+    GRPCReceiver -->|"Produit msg"| TopicIncoming
 
-    classDef service fill:#E3F2FD,stroke:#2196F3;
-    classDef db fill:#E8F5E9,stroke:#4CAF50;
-    classDef kafka fill:#FFF3E0,stroke:#FF9800;
-    classDef external fill:#FFF9C4,stroke:#FBC02D;
-    classDef client fill:#F5F5F5,stroke:#9E9E9E;
+    %% Traitement Flow
+    Classifier -->|"Consomme"| TopicIncoming
+    Classifier -->|"Appel HTTP POST"| LMStudio
+    LMStudio -->|"Texte enrichi"| Classifier
+    Classifier -->|"Produit msg classifié"| TopicClassified
 
-    class APIGW,GRPCReceiver,Classifier,Storage,GraphQLQuery service;
+    %% Stockage Flow
+    Storage -->|"Consomme"| TopicClassified
+    Storage -->|"Stocke/Lit"| Mongo
+
+    %% Requête Flow
+    ClientGraphQL -->|"Requête GraphQL /graphql"| APIGW
+    APIGW -->|"Resolver appelle GET /api/contents"| Storage
+
+    ClientGraphQL -->|"Requête GraphQL /graphql"| GraphQLQuery
+    GraphQLQuery -->|"Resolver appelle GET /api/contents"| Storage
+
+    %% Classes
+    classDef service fill:#D6EAF8,stroke:#2980B9,stroke-width:2px,color:#000;
+    class APIGW,GRPCReceiver,GraphQLQuery,Classifier,Storage service;
+
+    classDef topic fill:#FDEBD0,stroke:#E67E22,stroke-width:2px,color:#000;
+    class TopicIncoming,TopicClassified topic;
+
+    classDef db fill:#D5F5E3,stroke:#27AE60,stroke-width:2px,color:#000;
     class Mongo db;
-    class TopicIncoming,TopicClassified kafka;
+
+    classDef external fill:#FCF3CF,stroke:#F1C40F,stroke-width:2px,color:#000;
     class LMStudio external;
+
+    classDef client fill:#EAEDED,stroke:#7F8C8D,stroke-width:2px,color:#000;
     class ClientREST,ClientGRPC,ClientGraphQL client;
+
 ```
 
 ---
